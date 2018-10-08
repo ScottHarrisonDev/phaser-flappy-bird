@@ -1,4 +1,4 @@
-var config = {
+let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
@@ -14,13 +14,20 @@ var config = {
     }
 };
 
-var game = new Phaser.Game(config);
+let game = new Phaser.Game(config);
 
 function preload ()
 {
+    this.load.spritesheet('bird', 
+        'assets/bird.png',
+        {
+            frameWidth: 50,
+            frameHeight: 50
+        }
+    );
 }
 
 function create ()
 {
-    this.add.circle(config.width / 2, config.height / 2, 80, 0x6666ff);
+    bird = this.physics.add.sprite(config.width / 2, config.height / 2, 'bird');
 }
