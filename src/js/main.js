@@ -2,20 +2,23 @@ let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    backgroundColor: '#4fcdf9',
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 }
+            gravity: { y: 500 }
         }
     },
     scene: {
         preload: preload,
-        create: create
-    }
+        create: create,
+        update: update
+    },
+    backgroundColor: '#4fcdf9'
 };
 
 let game = new Phaser.Game(config);
+let bird;
+let pipes;
 
 function preload ()
 {
@@ -31,4 +34,22 @@ function preload ()
 function create ()
 {
     bird = this.physics.add.sprite(config.width / 2, config.height / 2, 'bird');
+}
+
+function update ()
+{
+    this.input.on('pointerdown', function (pointer) {
+        flap();
+    });
+
+    const cursors = this.input.keyboard.createCursorKeys();
+    if (cursors.space.isDown)
+    {
+        flap();
+    }
+}
+
+function flap ()
+{
+    bird.setVelocityY(-250);
 }
