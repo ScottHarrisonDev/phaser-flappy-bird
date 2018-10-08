@@ -5,7 +5,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 500 }
+            gravity: { y: 1000 }
         }
     },
     scene: {
@@ -51,5 +51,5 @@ function update ()
 
 function flap ()
 {
-    bird.setVelocityY(-250);
+    bird.setVelocityY(-400);
 }
