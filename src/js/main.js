@@ -18,7 +18,14 @@ let config = {
 
 let game = new Phaser.Game(config);
 let bird;
-let pipes;
+let lastPipeAt = 0;
+let pipes = [];
+const speed = 5;
+const flapForce = -350;
+const maxPipes = config.height / 50;
+const pipeGap = 4;
+const pipeHeight = 50;
+const pipeWidth = 50;
 
 function preload ()
 {
@@ -29,11 +36,18 @@ function preload ()
             frameHeight: 50
         }
     );
+    this.load.spritesheet('pipe', 
+        'assets/pipe.png',
+        {
+            frameWidth: 50,
+            frameHeight: 50
+        }
+    );
 }
 
 function create ()
 {
-    bird = this.physics.add.sprite(config.width / 2, config.height / 2, 'bird');
+    bird = this.physics.add.sprite(250, config.height / 2, 'bird');
 }
 
 function update ()
@@ -47,9 +61,25 @@ function update ()
     {
         flap();
     }
+    
+    let currentSecond = Math.floor(this.time.now / 1000);
+    if (currentSecond % 3 === 0 && lastPipeAt < currentSecond) {
+        let gapStart = Math.floor(Math.random() * (maxPipes - 2)) + 1;
+        for (let i = 1; i <= maxPipes; i++) {
+            if (i < gapStart || i >= (gapStart + pipeGap)) {
+                pipes.push(this.add.sprite(config.width - pipeWidth, (i * pipeHeight) + (pipeHeight / 2), 'pipe'));
+            }
+        }
+        lastPipeAt = currentSecond;
+    }
+    
+    for(let i = 0; i < pipes.length; i++) {
+        pipes[i].x -= speed;
+    }
+
 }
 
 function flap ()
 {
-    bird.setVelocityY(-400);
+    bird.setVelocityY(flapForce);
 }
