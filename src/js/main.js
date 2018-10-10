@@ -64,8 +64,8 @@ function update ()
     
     let currentSecond = Math.floor(this.time.now / 1000);
     if (currentSecond % 3 === 0 && lastPipeAt < currentSecond) {
-        let gapStart = Math.floor(Math.random() * (maxPipes - 2)) + 1;
-        for (let i = 1; i <= maxPipes; i++) {
+        let gapStart = Math.floor(Math.random() * (maxPipes - 2));
+        for (let i = 0; i <= maxPipes; i++) {
             if (i < gapStart || i >= (gapStart + pipeGap)) {
                 pipes.push(this.add.sprite(config.width - pipeWidth, (i * pipeHeight) + (pipeHeight / 2), 'pipe'));
             }
