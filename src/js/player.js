@@ -4,6 +4,8 @@ function Player() {
     this.width = 50;
     this.pos = createVector(200, (config.height / 2) - (this.height / 2));
     this.mass = 100;
+    this.flapForce = 600;
+    this.gravityForce = 0.2 * this.mass;
     this.acceleration = createVector(0, 0);
     this.velocity = createVector(0, 0);
 
@@ -25,19 +27,23 @@ function Player() {
     }
 
     this.applyGravity = function() {
-        const gravity = createVector(0, 0.2 * this.mass);
+        const gravity = createVector(0, this.gravityForce);
         this.applyForce(gravity);
     }
 
     this.applyForce = function(force) {
         const f = p5.Vector.div(force,this.mass);
         this.acceleration.add(f);
-    };
+    }
 
     this.flap = function() {
-        this.velocity = createVector(0, 0);
-        const force = createVector(0, -600);
+        this.resetVelocity();
+        const force = createVector(0, -this.flapForce);
         this.applyForce(force);
+    }
+
+    this.resetVelocity = function() {
+        this.velocity = createVector(0, 0);
     }
       
 
