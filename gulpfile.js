@@ -16,6 +16,7 @@ var gulp = require('gulp')
     , gulpif = require('gulp-if')
     , sequence = require('gulp-sequence')
     , vinylPaths = require('vinyl-paths')
+    , sourcemaps = require('gulp-sourcemaps')
     , paths;
 
 var watching = false;
@@ -24,10 +25,10 @@ paths = {
     assets: 'src/assets/**/*',
     css: 'src/css/*.css',
     libs: [
-        './node_modules/phaser/dist/phaser.js'
+        './node_modules/p5/lib/p5.min.js'
     ],
     js: ['src/js/*.js', 'src/js/**/*.js'],
-    entry: './src/js/main.js',
+    entry: './src/js/game.js',
     dist: './dist/'
 };
 
@@ -51,29 +52,10 @@ gulp.task('copylibs', ['clean'], function () {
 });
 
 gulp.task('compile', ['clean'], function () {
-    var bundler = browserify({
-        cache: {}, packageCache: {}, fullPaths: true,
-        entries: [paths.entry],
-        debug: watching
-    });
-
-    var bundlee = function () {
-        return bundler
-            .bundle()
-            .pipe(source('main.min.js'))
-            .pipe(jshint('.jshintrc'))
-            .pipe(jshint.reporter('default'))
-            .pipe(gulpif(!watching, streamify(uglify({ outSourceMaps: false }))))
-            .pipe(gulp.dest(paths.dist))
-            .on('error', gutil.log);
-    };
-
-    if (watching) {
-        bundler = watchify(bundler);
-        bundler.on('update', bundlee);
-    }
-
-    return bundlee();
+    gulp.src(paths.js)
+        .pipe(concat('game.js'))
+        .pipe(gulp.dest(paths.dist))
+        .on('error', gutil.log);
 });
 
 gulp.task('minifycss', ['clean'], function () {

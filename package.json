@@ -24,7 +24,6 @@
     "gulp-util": "*",
     "gulp-watch": "*",
     "jshint": "^2.9.6",
-    "phaser": "*",
     "tiny-lr": "*",
     "vinyl-paths": "*",
     "vinyl-source-stream": "*",
@@ -33,5 +32,9 @@
   "scripts": {
     "start": "node ./node_modules/gulp/bin/gulp.js",
     "build": "node ./node_modules/gulp/bin/gulp.js build"
+  },
+  "dependencies": {
+    "gulp-sourcemaps": "^2.6.4",
+    "p5": "^0.7.2"
   }
 }
