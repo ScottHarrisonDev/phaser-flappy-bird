@@ -10,7 +10,6 @@ function Player() {
     this.velocity = createVector(0, 0);
 
     this.show = function() {
-
         this.applyGravity();
         this.update();
 
