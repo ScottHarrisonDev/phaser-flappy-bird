@@ -9,6 +9,7 @@ const config = {
 let canvas;
 let player;
 let obstacles = [];
+let obstacleTimingCount = 0;
 
 function preload() {
 }
@@ -28,14 +29,17 @@ function setup() {
 
 function draw() {
     background(config.background);
-    player.show();
-
-    // setInterval(() => {
-    //     for (let i = 0; i < (config.height / config.obstacleSize); i++) {
-    //         obstacles.push(new Obstacle(i));
-    //     }
-    // }, config.obstacleGenerationInterval);
-
+    player.show(); // change this to update as per obstacles class
+    
+    obstacleTimingCount += Math.floor(window.performance.now() - canvas._pInst._lastFrameTime);
+    if (obstacleTimingCount >= config.obstacleGenerationInterval) {
+        for (let i = 0; i < (config.height / config.obstacleSize); i++) {
+            obstacles.push(new Obstacle(i));
+        }
+        obstacles.forEach(obstacle => obstacle.show());
+        obstacleTimingCount = 0;
+    }
+    
     obstacles.forEach(obstacle => obstacle.update());
 }
 
